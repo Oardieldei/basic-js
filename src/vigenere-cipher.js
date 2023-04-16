@@ -20,13 +20,68 @@ const { NotImplementedError } = require('../extensions/index.js');
  * 
  */
 class VigenereCipheringMachine {
-  encrypt() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+  constructor(isDirect = true) {
+    this.isDirect = isDirect;
   }
-  decrypt() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+
+  encrypt(message, key) {
+    if (!message || !key) {
+      throw new Error('Incorrect arguments!')
+    }
+
+    const messageUpperCase = message.toUpperCase()
+    const keyUpperCase = key.toUpperCase()
+    let result = ''
+    let keyIndex = 0
+
+    for (let i = 0; i < messageUpperCase.length; i++) {
+      const messageCharCode = messageUpperCase.charCodeAt(i)
+
+      if (messageCharCode >= 65 && messageCharCode <= 90) {
+        const keyCharCode = keyUpperCase.charCodeAt(keyIndex % keyUpperCase.length)
+        const encryptedCharCode = ((messageCharCode + keyCharCode - 130) % 26) + 65
+        result += String.fromCharCode(encryptedCharCode)
+        keyIndex++
+      } else {
+        result += messageUpperCase[i]
+      }
+    }
+
+    if (!this.isDirect) {
+      result = result.split('').reverse().join('')
+    }
+
+    return result
+  }
+
+  decrypt(message, key) {
+    if (!message || !key) {
+      throw new Error('Incorrect arguments!')
+    }
+
+    const messageUpperCase = message.toUpperCase()
+    const keyUpperCase = key.toUpperCase()
+    let result = ''
+    let keyIndex = 0
+
+    for (let i = 0; i < messageUpperCase.length; i++) {
+      const messageCharCode = messageUpperCase.charCodeAt(i)
+
+      if (messageCharCode >= 65 && messageCharCode <= 90) {
+        const keyCharCode = keyUpperCase.charCodeAt(keyIndex % keyUpperCase.length)
+        const decryptedCharCode = ((messageCharCode - keyCharCode + 26) % 26) + 65
+        result += String.fromCharCode(decryptedCharCode)
+        keyIndex++
+      } else {
+        result += messageUpperCase[i]
+      }
+    }
+
+    if (!this.isDirect) {
+      result = result.split('').reverse().join('')
+    }
+
+    return result
   }
 }
 
