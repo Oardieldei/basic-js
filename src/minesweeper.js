@@ -23,9 +23,24 @@ const { NotImplementedError } = require('../lib');
  *  [1, 1, 1]
  * ]
  */
-function minesweeper(/* matrix */) {
-  // Remove line below and write your code here
-  throw new NotImplementedError('Not implemented');
+function minesweeper(matrix) {
+	const result = structuredClone(matrix)
+
+	for (let i = 0; i < matrix.length; i++) {
+		for (let j = 0; j < matrix[0].length; j++) {
+			result[i][j] = 0
+			if (matrix[i + 1] && matrix[i + 1][j] === true) result[i][j]++
+			if (matrix[i - 1] && matrix[i - 1][j] === true) result[i][j]++
+			if (matrix[i - 1] && matrix[i - 1][j - 1] && matrix[i - 1][j - 1] === true) result[i][j]++
+			if (matrix[i - 1] && matrix[i - 1][j + 1] && matrix[i - 1][j + 1] === true) result[i][j]++
+			if (matrix[i + 1] && matrix[i + 1][j - 1] && matrix[i + 1][j - 1] === true) result[i][j]++
+			if (matrix[i + 1] && matrix[i + 1][j + 1] && matrix[i + 1][j + 1] === true) result[i][j]++
+			if (matrix[i][j + 1] && matrix[i][j + 1] === true) result[i][j]++
+			if (matrix[i][j - 1] && matrix[i][j - 1] === true) result[i][j]++
+		}
+	}
+
+	return result
 }
 
 module.exports = {

@@ -14,11 +14,16 @@ const { NotImplementedError } = require('../lib');
  * ]) => 3`
  *
  */
-function countCats(/* matrix */) {
-  // Remove line below and write your code here
-  throw new NotImplementedError('Not implemented');
+function countCats(matrix) {
+	let result = 0
+	matrix.forEach(elem => {
+		elem.forEach(item => {
+			if (item === '^^') result++
+		})
+	})
+	return result
 }
 
-module.exports = {
-  countCats
-};
+	module.exports = {
+		countCats
+	};
